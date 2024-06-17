@@ -1,48 +1,54 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./RegisterPage.css"
 import { Link, useNavigate } from 'react-router-dom'
 
-const data = [
-  {
-    name:'suraj',
-    password:'pass',
-    email:'surajdhami@gmail.com'
-  }
-]
 
 const RegisterPage = () => {
 
-  const [user,setUser]= useState([])
+  const [user, setUser] = useState(() => {
+    const data = localStorage.getItem('data');
+    return data ? JSON.parse(data) : [];
+  });
 
   const navigate = useNavigate()
 
 const handleSummit = (e)=>{
-  e.preventDefault()
-  var formData = new FormData(e.target);
+  try {
+    e.preventDefault()
+    var formData = new FormData(e.target);
+  
+    let name = formData.get('name')
+    let email = formData.get('email')
+    let password = formData.get('password')
+  
+    const checkEmail = user.find(item=>item.email === email)
+  
+    if(checkEmail){
+      throw new Error('email already exits')
+    }
 
-  let name = formData.get('name')
-  let email = formData.get('email')
-  let password = formData.get('password')
+    setUser((pre=>([...pre,{
+    name,
+    email,
+    password
+  }])))
+  
+  
+  // navigate('/')
 
-console.log(name,email,password);
-setUser((pre=>({
-  ...pre,
-  name,
-  email,
-  password
-})))
-
-localStorage.setItem('data', JSON.stringify({
-  name,
-  email,
-  password
-}));
-
-navigate('/')
+  } catch (error) {
+    alert(error)
+  }
 
 
 
 }
+
+useEffect(()=>{
+  localStorage.setItem('data', JSON.stringify(user));
+
+},[user])
+
 
   return (
     <div className='addUser'>

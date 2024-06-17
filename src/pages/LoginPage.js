@@ -1,6 +1,6 @@
 import React from 'react'
 import "./LoginPage.css"
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, json, useNavigate } from 'react-router-dom';
 
 const Login = () => {
 
@@ -16,13 +16,18 @@ try {
   let email = formData.get('email')
   let password = formData.get('password')
 
-  if(data.email !== email){
+  const checkEmail = data.find(item=>item.email === email)
+
+  if(checkEmail.email !== email){
     throw new Error("invalid email")
   }
 
-  if(data.password !== password){
+
+  if(checkEmail.password !== password){
     throw new Error('password is incorrect')
   }
+
+  localStorage.setItem('token',JSON.stringify(checkEmail))
 
   navigate('/dashboard')  
 
