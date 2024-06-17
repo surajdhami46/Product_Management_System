@@ -1,7 +1,9 @@
 import React from 'react'
 import './Header.css'
+import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
+    const navigate = useNavigate()
     return (
         <div className='nav'>
             <nav>
@@ -14,7 +16,13 @@ const Header = () => {
                             <a href="/product">Your Product</a>
                         </li>
                         <li>
-                            <a href="/product">Add Product</a>
+                            <a href="/product/add">Add Product</a>
+                        </li>
+                        <li>
+                            <p className=' cursor-pointer' onClick={() => {
+                                localStorage.removeItem('token')
+                                navigate('/')
+                            }}>Log Out</p>
                         </li>
                     </ul>
                 </div>
