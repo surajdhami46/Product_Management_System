@@ -1,40 +1,43 @@
 import React from 'react'
 import "./LoginPage.css"
 import { Link, json, useNavigate } from 'react-router-dom';
+import { message } from 'antd';
 
 const Login = () => {
 
-const navigate = useNavigate()
+  const navigate = useNavigate()
 
-const handleSummit = (e) => {
-e.preventDefault()
-try {
-  
-  let data = JSON.parse(localStorage.getItem('data'))
-  var formData = new FormData(e.target);
-  
-  let email = formData.get('email')
-  let password = formData.get('password')
+  const handleSummit = (e) => {
+    e.preventDefault()
+    try {
 
-  const checkEmail = data.find(item=>item.email === email)
+      let data = JSON.parse(localStorage.getItem('data'))
+      var formData = new FormData(e.target);
 
-  if(checkEmail.email !== email){
-    throw new Error("invalid email")
+      let email = formData.get('email')
+      let password = formData.get('password')
+
+      const checkEmail = data.find(item => item.email === email)
+
+      if (checkEmail.email !== email) {
+        throw new Error("invalid email")
+      }
+
+
+      if (checkEmail.password !== password) {
+        throw new Error('password is incorrect')
+      }
+
+      localStorage.setItem('token', JSON.stringify(checkEmail))
+
+      message.success('Login success')
+
+      navigate('/dashboard')
+
+    } catch (error) {
+      alert(error)
+    }
   }
-
-
-  if(checkEmail.password !== password){
-    throw new Error('password is incorrect')
-  }
-
-  localStorage.setItem('token',JSON.stringify(checkEmail))
-
-  navigate('/dashboard')  
-
-} catch (error) {
-  alert(error)
-}
-}
 
 
 
@@ -43,28 +46,28 @@ try {
   return (
     <div className='Login'>
       <h3>Log in</h3>
-      <form className="logInForm" onSubmit={(e)=>handleSummit(e)}>
+      <form className="logInForm" onSubmit={(e) => handleSummit(e)}>
         <div className='inputGroup'>
           <label htmlFor="email">Email:</label>
           <input type="email"
-          id="email"
-          name="email"
-          autoComplete='off'
-          placeholder='Enter Your email'
+            id="email"
+            name="email"
+            autoComplete='off'
+            placeholder='Enter Your email'
           />
           <label htmlFor="password">password:</label>
           <input type="password"
-          id="password"
-          name="password"
-          autoComplete='off'
-          placeholder='Enter password'
+            id="password"
+            name="password"
+            autoComplete='off'
+            placeholder='Enter password'
           />
           <button type="submit" class="btn btn-success">Log in</button>
         </div>
       </form>
       <div className='login'>
         <p>Already have an account?</p>
-        <Link to ="/register" type="submit" class="btn btn-primary">New Registaration</Link>
+        <Link to="/register" type="submit" class="btn btn-primary">New Registaration</Link>
       </div>
     </div>
   )

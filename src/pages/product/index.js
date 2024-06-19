@@ -39,7 +39,7 @@ export default function Product() {
 
   return (
     <div className=' px-[60px]'>
-      <div className=' grid grid-cols-4 justify-between gap-[20px]'>
+      <div className=' grid grid-cols-3 justify-between gap-[20px]'>
         {
           product.map(item => <ProductCard key={item.id} data={item} />)
         }

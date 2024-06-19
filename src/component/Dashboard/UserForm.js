@@ -67,8 +67,10 @@ const UserProfile = () => {
     const [form] = useForm()
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [storeData, setStoreData] = useState({})
 
     const showModal = (data) => {
+        setStoreData(data)
         form.setFieldsValue({
             name: data.name,
             email: data.email,
@@ -77,9 +79,21 @@ const UserProfile = () => {
         setIsModalOpen(true);
     };
 
-    const handleOk = (email) => {
-        
-        setIsModalOpen(false);
+    const handleOk = () => {
+        form.validateFields().then((data) => {
+            const updatedUsers = user.map((item) => {
+                if (item.email === storeData.email) {
+                    return { ...item, ...data };
+                }
+                return item;
+            });
+            setUser(updatedUsers);
+            localStorage.setItem('data', JSON.stringify(updatedUsers));
+            message.success('User updated successfully');
+            setIsModalOpen(false);
+        }).catch((errorInfo) => {
+            console.log('Validate Failed:', errorInfo);
+        });
     };
 
     const handleCancel = () => {
@@ -87,8 +101,8 @@ const UserProfile = () => {
     };
 
     return (
-        <div>
-            <h1>User Profile</h1>
+        <div className="px-[60px]">
+            <h1 className=" font-bold ">User Profile</h1>
             <p><strong>Name:</strong> {loginUser.name}</p>
             <p><strong>Email:</strong> {loginUser.email}</p>
             <div>

@@ -1,21 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import "./RegisterPage.css"
 import { Link, useNavigate } from 'react-router-dom'
+import { AuthContext } from '../context/authContext'
+import { message } from 'antd'
 
 
 const RegisterPage = () => {
 
-  const [user, setUser] = useState(() => {
-    const data = localStorage.getItem('data');
-    return data ? JSON.parse(data) : [{
-      name: 'admin',
-      email: 'admin@gmail.com',
-      password: 'admin',
-      role: "ADMIN"
-    }];
-  });
 
   const navigate = useNavigate()
+
+
+  const { userList, setUserList } = useContext(AuthContext)
 
   const handleSummit = (e) => {
     try {
@@ -26,34 +22,34 @@ const RegisterPage = () => {
       let email = formData.get('email')
       let password = formData.get('password')
 
-      const checkEmail = user.find(item => item.email === email)
+      const checkEmail = userList.find(item => item.email === email)
 
       if (checkEmail) {
         throw new Error('email already exits')
       }
 
-      setUser((pre => ([...pre, {
+      setUserList((pre => ([...pre, {
         name,
         email,
         password,
         role: 'USER'
       }])))
 
+      message.success('Register successfully')
 
-      // navigate('/')
+      navigate('/login')
+
+
 
     } catch (error) {
       alert(error)
     }
-
-
+    // navigate('/login')
 
   }
 
-  useEffect(() => {
-    localStorage.setItem('data', JSON.stringify(user));
 
-  }, [user])
+
 
 
   return (

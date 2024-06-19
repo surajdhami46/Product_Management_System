@@ -55,7 +55,8 @@ const AddProduct = () => {
 
     form.setFieldsValue({
       title: data.title,
-      description: data.description
+      description: data.description,
+      price: data.price
     })
 
     console.log(data)
@@ -74,25 +75,12 @@ const AddProduct = () => {
 
   return (
 
-    <>
+    <section className=' flex items-center justify-center'>
       {contextHolder}
       <Form
         form={form}
         name="wrap"
-        labelCol={{
-          flex: '110px',
-        }}
-        labelAlign="left"
-        labelWrap
-        wrapperCol={{
-          flex: 1,
-        }}
-        colon={false}
-        style={{
-          maxWidth: 600,
-          padding: 40,
-
-        }}
+        layout='vertical'
         onFinish={onFinish}
       >
         <Form.Item
@@ -107,6 +95,18 @@ const AddProduct = () => {
         >
           <Input />
         </Form.Item>
+        <Form.Item
+          label="price"
+          name="price"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+        >
+          <Input type='number' />
+        </Form.Item>
+
         <Form.Item
           label="Description"
           name="description"
@@ -125,7 +125,7 @@ const AddProduct = () => {
           </Button>
         </Form.Item>
       </Form>
-    </>
+    </section>
   );
 };
 

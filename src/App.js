@@ -3,12 +3,15 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Login from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
-import Header from './component/Header';
+import Header from './component/Header/Header';
 import Product from './pages/product';
 import DetailPage from './pages/detailPage';
 import NotFoundPage from './pages/NotFoundPage';
 import AddProduct from './pages/product/addProduct';
 import UserProfile from './component/Dashboard/UserForm';
+import { AuthProvider } from './context/authContext';
+import ProductList from './component/card/ProductList';
+import AllCatagory from './pages/catagory/AllCatagory';
 
 function App() {
 
@@ -28,6 +31,12 @@ function App() {
         : <Login />
     },
     {
+      path: "/login",
+      element: <Login />
+
+    },
+
+    {
       path: "/register",
       element: <RegisterPage />
     },
@@ -42,8 +51,7 @@ function App() {
       path: "/product",
       element: token ? <>
         <Header />
-
-        <Product />
+        <ProductList />
       </>
         : <Login />
     },
@@ -57,16 +65,35 @@ function App() {
         : <Login />
     },
     {
+      path: "/logout",
+      element: token ? <>
+        <Header />
+
+        <DetailPage />
+      </>
+        : <Login />
+    },
+    {
       path: "/product/add",
-      element: token ? <AddProduct /> : <Login />
+      element: token ? <>
+        <Header />
+        <AddProduct />
+      </> : <Login />
     },
     {
       path: "/product/update/:id",
-      element: token ? <AddProduct /> : <Login />
+      element: token ? <> <Header /> <AddProduct /> </> : <Login />
     },
     {
       path: "/user",
-      element: token ? <UserProfile /> : <Login />
+      element: token ? <>
+        <Header />
+        <UserProfile />
+      </> : <Login />
+    },
+    {
+      path: "/catagory",
+      element: token ? <AllCatagory /> : <Login />
     },
     {
       path: "*",
@@ -75,7 +102,8 @@ function App() {
   ]);
 
   return (
-    <div className="App">
+    <div className="">
+
       <RouterProvider router={routes} />
     </div>
   );
