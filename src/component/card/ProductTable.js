@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Space, message, Button } from "antd";
+import { Table, Space, message, Button, Tag } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -17,6 +17,11 @@ const ProductTable = ({ products, loading }) => {
 
   const columns = [
     {
+      title: 'id',
+      dataIndex: 'id',
+      key: 'id',
+    },
+    {
       title: 'Title',
       dataIndex: 'title',
       key: 'title',
@@ -26,6 +31,26 @@ const ProductTable = ({ products, loading }) => {
       title: 'Description',
       dataIndex: 'description',
       key: 'description',
+    },
+    {
+      title: 'Tags',
+      dataIndex: 'tags',
+      key: 'tags',
+      render: (_, { tags }) => (
+        <>
+          {tags.map((tag) => {
+            let color = tag.length > 5 ? 'geekblue' : 'green';
+            if (tag === 'loser') {
+              color = 'volcano';
+            }
+            return (
+              <Tag color={color} key={tag}>
+                {tag.toUpperCase()}
+              </Tag>
+            );
+          })}
+        </>
+      ),
     },
     {
       title: 'Action',

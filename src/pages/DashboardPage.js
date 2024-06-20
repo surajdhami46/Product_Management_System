@@ -1,5 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
+import Login from './LoginPage';
 
 const DashboardPage = () => {
   let data = JSON.parse(localStorage.getItem('token'));
@@ -8,7 +9,7 @@ const DashboardPage = () => {
   const arr = [
     {
       title: 'Total Products',
-      value: '200',
+      value: '194',
       color: '#00b26f'
     },
     {
@@ -18,7 +19,7 @@ const DashboardPage = () => {
     },
     {
       title: 'Total Category',
-      value: '200',
+      value: '24',
       color: '#00b5e9'
     },
     {
@@ -31,9 +32,10 @@ const DashboardPage = () => {
 
   return (
     <section className='max-w-[1440px] mx-auto'>
+
       <article>
         <div className=' border-b py-[16px]'>
-          <p className=' font-bold text-gray-400 text-[30px] leading-[42px]'>Welcome {_.upperFirst(data.name)}!</p>
+          <p className=' font-bold text-gray-400 text-[30px] leading-[42px]'>Welcome {_.upperFirst(data?.name)}!</p>
         </div>
 
       </article>
@@ -41,7 +43,7 @@ const DashboardPage = () => {
       <article className=' flex items-center justify-center py-[60px]'>
         <div className=' flex items-center gap-x-[20px]'>
           {
-            arr.map(item => <div key={item.title} className={` h-[180px] w-[260px] p-[40px] rounded-sm`}
+            arr.map(item => <div key={item?.title} className={` h-[180px] w-[260px] p-[40px] rounded-sm`}
               style={{
                 background: item.color
               }}

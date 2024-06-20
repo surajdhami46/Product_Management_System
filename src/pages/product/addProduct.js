@@ -6,7 +6,7 @@ import { Toast } from 'bootstrap';
 import TextArea from 'antd/es/input/TextArea';
 
 
-const AddProduct = () => {
+const AddProduct = ({ name }) => {
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState({});
   const [form] = Form.useForm();
@@ -77,6 +77,7 @@ const AddProduct = () => {
 
     <section className=' flex items-center justify-center'>
       {contextHolder}
+      <p>{name}</p>
       <Form
         form={form}
         name="wrap"

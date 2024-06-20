@@ -23,7 +23,6 @@ const Login = () => {
         throw new Error("invalid email")
       }
 
-
       if (checkEmail.password !== password) {
         throw new Error('password is incorrect')
       }
@@ -38,10 +37,6 @@ const Login = () => {
       alert(error)
     }
   }
-
-
-
-
 
   return (
     <div className='Login'>
